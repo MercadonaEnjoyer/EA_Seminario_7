@@ -4,6 +4,7 @@ import cors from 'cors';
 import userRoutes from './routes/user';
 import todoRoutes from './routes/todo';
 import authRoutes from './routes/auth';
+import postRoutes from './routes/post';
 
 // Initializations
 const app: express.Application = express();
@@ -20,5 +21,6 @@ app.use(express.json() as RequestHandler);
 app.use('/api/users', userRoutes);
 app.use('/api/todos', todoRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/post', postRoutes);
 
 export default app;

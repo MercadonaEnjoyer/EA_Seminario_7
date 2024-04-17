@@ -13,14 +13,13 @@ export async function signin(req: Request, res: Response): Promise<Response> {
     const username = req.body.username;
     const password = req.body.password;
     
-    const userFound = await User.findOne();
+    const userFound = await User.findOne({username: username});
 
     console.log(userFound);
 
     if (!userFound) return res.status(400).json({ message: "User Not Found" });
 
     if (!await userFound.validatePassword(password)) {
-        console.log("Estoy dentro");
         return res.status(401).json({ token: null, message: "Invalid Password",});
     }
 

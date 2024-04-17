@@ -8,6 +8,7 @@ export function helloWorld (req: Request, res: Response): Response {
 
 export async function createTodo (req: Request, res: Response): Promise<Response> {
   const { id, user, name, completed } = req.body;
+
   console.log('Creating todo');
   const newTodo = {
     id: id,
