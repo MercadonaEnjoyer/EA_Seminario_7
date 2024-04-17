@@ -1,0 +1,35 @@
+import { Request, Response } from 'express'
+import jwt from "jsonwebtoken";
+
+import User from '../models/User';
+import Todo from '../models/Todo';
+import IJwtPayload from '../models/JWTPayload';
+
+const _SECRET: string = 'api+jwt';
+
+
+export async function signin(req: Request, res: Response): Promise<Response> {
+    console.log('Log in');
+    const username = req.body.username;
+    const password = req.body.password;
+    
+    const userFound = await User.findOne();
+
+    console.log(userFound);
+
+    if (!userFound) return res.status(400).json({ message: "User Not Found" });
+
+    if (!await userFound.validatePassword(password)) {
+        console.log("Estoy dentro");
+        return res.status(401).json({ token: null, message: "Invalid Password",});
+    }
+
+    const session = { 'id': username } as IJwtPayload;
+
+    const token = jwt.sign(session, _SECRET, {
+        expiresIn: 86400, // 24 hours
+    });
+    
+    console.log (token);
+    return res.json(token);
+};
